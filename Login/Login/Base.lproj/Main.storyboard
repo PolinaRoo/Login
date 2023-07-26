@@ -86,7 +86,7 @@
                                                     <constraint firstAttribute="height" constant="34" id="Zf4-Zp-UsQ"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -129,7 +129,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="loginButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="txD-RF-dHJ"/>
-                                            <segue destination="0lN-XS-KAV" kind="show" id="3r0-7c-BRQ"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -189,6 +188,7 @@
                         <outlet property="passwordLine" destination="ot6-cX-Rte" id="PJg-ML-euh"/>
                         <outlet property="passwordTextField" destination="D19-pW-Gzi" id="L6D-Eq-Mkt"/>
                         <outlet property="signUpButton" destination="c5r-ak-UyK" id="9My-wz-znZ"/>
+                        <segue destination="0lN-XS-KAV" kind="show" identifier="goToHomePage" id="1nx-VL-BP9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
