@@ -25,12 +25,14 @@ class ViewController: UIViewController {
         didSet {
             loginButton.isUserInteractionEnabled = !(email.isEmpty || password.isEmpty)
             loginButton.backgroundColor = !(email.isEmpty || password.isEmpty) ? activeColor : .systemGray3
+            loginButton.layer.shadowColor = !(email.isEmpty || password.isEmpty) ? activeColor.cgColor : UIColor.systemGray3.cgColor
         }
     }
     private var password: String = "" {
         didSet {
             loginButton.isUserInteractionEnabled = !(email.isEmpty || password.isEmpty)
             loginButton.backgroundColor = !(email.isEmpty || password.isEmpty) ? activeColor : .systemGray3
+            loginButton.layer.shadowColor = !(email.isEmpty || password.isEmpty) ? activeColor.cgColor : UIColor.systemGray3.cgColor
         }
     }
     
@@ -81,7 +83,7 @@ class ViewController: UIViewController {
     
     // MARK: Methods
     private func configureLoginButton() {
-        loginButton.layer.shadowColor = activeColor.cgColor
+        loginButton.layer.shadowColor = UIColor.systemGray3.cgColor
         loginButton.layer.shadowOffset = CGSize(width: 4, height: 6)
         loginButton.layer.shadowOpacity = 0.5
         loginButton.layer.shadowRadius = 5
@@ -93,6 +95,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITextFieldDelegate {
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
         !text.isEmpty
@@ -108,6 +111,7 @@ extension ViewController: UITextFieldDelegate {
             } else {
                 email = ""
                 makeErrorField(textField: textField)
+                loginButton.isUserInteractionEnabled = false
             }
         case passwordTextField:
             let isValidPassword = check(password: text)
@@ -119,14 +123,29 @@ extension ViewController: UITextFieldDelegate {
             } else {
                 password = ""
                 makeErrorField(textField: textField)
+                loginButton.isUserInteractionEnabled = false
             }
         default:
             print("unknown")
         }
     }
     
+    /* func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if (textField.text?.count ?? 0) +  (string.count - range.length) > 4 {
+            loginButton.isUserInteractionEnabled = true
+            return true
+        } else {
+            loginButton.isUserInteractionEnabled = false
+            return false
+        }
+    } */
+    
     private func check(email: String) -> Bool {
-        return email.contains("@") && email.contains(".")
+        let range = NSRange(location: 0, length: email.utf16.count)
+        let regex = try! NSRegularExpression(pattern: "([a-z0-9!#$%&'*+-/=?^_`{|}~]){1,64}@([a-z0-9!#$%&'*+-/=?^_`{|}~]){1,64}\\.([a-z0-9]){2,64}")
+       return regex.firstMatch(in: email, options: [], range: range) != nil
+        
+       // return email.contains("@") && email.contains(".")
     }
     
     private func check(password: String) -> Bool {
